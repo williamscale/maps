@@ -5,9 +5,19 @@ library(ggthemes)
 library(showtext)
 
 # neighborhoods <- read_sf(dsn = 'D:/mpls_map/Minneapolis_Neighborhoods')
-streets <- read_sf(dsn = 'D:/sa_map/Streets')
+streets <- read_sf(dsn = './sa_map/Streets')
 # water <- read_sf(dsn = 'D:/mpls_map/Water-shp')
-parks <- read_sf(dsn = 'D:/sa_map/Park_Boundaries')
+parks <- read_sf(dsn = './sa_map/Park_Boundaries')
+
+unique(streets$CoSARoadFu)
+streets.main <- streets %>%
+  filter(CoSARoadFu %in% c('Primary Arterial A', 'Super Arterial A'))
+
+streets.keep <- c('1604', '410', 'IH 35', 'IH 10', 'IH 37')
+streets.keep.df <- streets %>%
+  filter(grepl(paste(streets.keep, collapse = '|'), MSAG_NAME),
+         !grepl('access', MSAG_NAME, ignore.case = TRUE),
+         !grepl('at', MSAG_NAME, ignore.case = TRUE))
 
 # ggplot() +
 #   geom_sf(data = streets) +
@@ -36,7 +46,7 @@ showtext_auto()
 
 # png('D:/mpls_map/mpls.png', width = 8, height = 10, units = 'in', res = 300)
 ggplot() +
-  geom_sf(data = streets) +
+  geom_sf(data = streets.keep.df) +
   # geom_sf(data = water,
   #         fill = 'steelblue',
   #         color = 'steelblue') +
