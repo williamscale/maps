@@ -28,7 +28,7 @@ streets.keep.df <- cosa.streets %>%
          !grepl('access', MSAG_NAME, ignore.case = TRUE),
          !grepl('at', MSAG_NAME, ignore.case = TRUE))
 
-n <- 80
+n <- 40
 cosa.grid <- cosa.bounds %>% 
   st_make_grid(n = c(n, n))
 
@@ -74,5 +74,5 @@ ggplot() +
   guides(fill = guide_colorbar(ticks = FALSE)) +
   annotate('text', x = -98.26, y = 29.705, label = 'Frequency\u2192',
            color = 'black', size = 4, family = 'mono') +
-  annotate('text', x = -98.60, y = 29.12, label = 'San Antonio Running',
-           color = 'black', size = 6, family = 'mono', fontface = 'bold')
+  annotate('text', x = -98.65, y = 29.12, label = 'San Antonio Running',
+           color = 'black', size = 8, family = 'mono', fontface = 'bold')
