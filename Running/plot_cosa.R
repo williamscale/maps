@@ -1,26 +1,22 @@
-library(dplyr)
-library(ggplot2)
+library(tidyverse)
 library(sf)
-library(ggthemes)
 library(nngeo)
+
+data.raw <- readRDS('D:/maps/Running/Data/kg_running_06142024.RDS')
+data <- data %>% na.omit()
 
 sf_use_s2(FALSE)
 
-bexar.bounds <- st_read('C:/Users/caler/Documents/MyProjects/Running/bexar/Bexar_County_Boundary.shp') %>%
+bexar.bounds <- st_read('D:/maps/Running/bexar/Bexar_County_Boundary.shp') %>%
   st_transform(4326)
-cosa.bounds <- st_read('C:/Users/caler/Documents/MyProjects/Running/cosa/CosaBoundary.shp') %>%
+cosa.bounds <- st_read('D:/maps/Running/cosa/CosaBoundary.shp') %>%
   st_transform(4326) %>%
   st_remove_holes()
-cosa.streets <- st_read('C:/Users/caler/Documents/MyProjects/Running/cosa/Streets.shp') %>%
+cosa.streets <- st_read('D:/maps/Running/cosa/Streets.shp') %>%
   st_transform(4326)
 
-# strava.all <- read.csv('C:/Users/caler/Documents/MyProjects/Running/strava_081523.csv') %>%
-#   select(-X) %>%
-#   st_as_sf(coords = c('longitude', 'latitude'),
-#            crs = st_crs(bexar.bounds))
-strava.all <- read.csv('C:/Users/caler/Documents/MyProjects/Running/kg_strava_082123.csv') %>%
-  select(-X) %>%
-  st_as_sf(coords = c('longitude', 'latitude'),
+strava.all <- data %>%
+  st_as_sf(coords = c('Longitude', 'Latitude'),
            crs = st_crs(bexar.bounds))
 
 strava.bexar <- st_filter(strava.all, bexar.bounds)
@@ -63,7 +59,7 @@ ggplot() +
   geom_sf(data = streets.keep.df,
           size = 0.7,
           color = '#F6CF65') +
-          # color = 'turq/uoise4') +
+  # color = 'turq/uoise4') +
   scale_fill_viridis_c(option = 'plasma',
                        na.value = 'white') +
   coord_sf() +
@@ -78,6 +74,5 @@ ggplot() +
   guides(fill = guide_colorbar(ticks = FALSE)) +
   annotate('text', x = -98.26, y = 29.705, label = 'Frequency\u2192',
            color = 'black', size = 4, family = 'mono') +
-  annotate('text', x = -98.60, y = 29.12, label = 'San Antonio Activities',
+  annotate('text', x = -98.60, y = 29.12, label = 'San Antonio Running',
            color = 'black', size = 6, family = 'mono', fontface = 'bold')
-
