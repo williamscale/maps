@@ -2,9 +2,10 @@ library(tidyverse)
 library(sf)
 library(nngeo)
 
-data.raw <- readRDS('D:/maps/Running/Data/kg_running_06142024.RDS')
-data <- data %>% na.omit()
-
+data.raw <- readRDS('D:/maps/Running/Data/cdtc_running_06142024.RDS')
+# colSums(is.na(data.raw))
+# data <- data.raw %>% na.omit()
+data <- data.raw
 sf_use_s2(FALSE)
 
 bexar.bounds <- st_read('D:/maps/Running/bexar/Bexar_County_Boundary.shp') %>%
@@ -73,6 +74,6 @@ ggplot() +
         legend.text = element_blank()) +
   guides(fill = guide_colorbar(ticks = FALSE)) +
   annotate('text', x = -98.26, y = 29.705, label = 'Frequency\u2192',
-           color = 'black', size = 4, family = 'mono') +
+           color = 'black', size = 5, family = 'mono') +
   annotate('text', x = -98.65, y = 29.12, label = 'San Antonio Running',
            color = 'black', size = 8, family = 'mono', fontface = 'bold')
