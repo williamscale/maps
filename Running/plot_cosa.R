@@ -2,10 +2,10 @@ library(tidyverse)
 library(sf)
 library(nngeo)
 
-data.raw <- readRDS('D:/maps/Running/Data/cdtc_running_06142024.RDS')
+data.raw <- readRDS('D:/maps/Running/Data/kg_running_06142024.RDS')
 # colSums(is.na(data.raw))
 # data <- data.raw %>% na.omit()
-data <- data.raw
+# data <- data.raw
 sf_use_s2(FALSE)
 
 bexar.bounds <- st_read('D:/maps/Running/bexar/Bexar_County_Boundary.shp') %>%
